@@ -18,8 +18,8 @@ LEARNING_RATE = 0.01
 WEIGHT_DECAY = 0.01
 W_POSITIVE = 10
 W_NEGATIVE = 0.5
-THRESHOLD = 0.7
-HIDDEN_SIZE = 128
+THRESHOLD = 0.5
+HIDDEN_SIZE = 500
 EMBEDDING_SIZE = 384
 
 best_validation_f1 = 0.0
@@ -201,7 +201,7 @@ def validate(model, val_loader, criterion):
 
 # Main execution flow
 if __name__ == '__main__':
-
+    torch.manual_seed(42)
     model = DualTowerModel(EMBEDDING_SIZE, HIDDEN_SIZE, 1)
     current_directory = os.path.dirname(__file__)
 
