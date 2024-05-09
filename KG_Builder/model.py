@@ -37,15 +37,15 @@ class DualTowerModel(torch.nn.Module):
         self.norm_q = nn.LayerNorm(hidden_dim)
 
         self.final_fc = torch.nn.Linear(hidden_dim * 3, hidden_dim)
-        self.final_fc2 = torch.nn.Linear(hidden_dim, hidden_dim//2)
-        self.final_fc3 = torch.nn.Linear(hidden_dim//2, output_dim)
+        self.final_fc2 = torch.nn.Linear(hidden_dim * 2, hidden_dim)
+        self.final_fc3 = torch.nn.Linear(hidden_dim, output_dim)
         self.norm_final = nn.LayerNorm(hidden_dim)
 
     def forward(self, data, question_embedding, idx):
         # Process graph features with GCN
         structural_features = F.relu(self.norm_g(self.gcn(data.x, data.edge_index)))
         structural_features = structural_features[idx]  # Apply indexing to select relevant node features
-
+        
         # Process text features
         text_features = F.relu(self.norm_t1(self.text_fc(data.x[idx])))
         text_features = self.dropout(F.relu(self.norm_t2(self.text_fc2(text_features))))
@@ -56,6 +56,7 @@ class DualTowerModel(torch.nn.Module):
         # Combine features
         combined_features = torch.cat([structural_features, text_features, question_features], dim=1)
         combined_features = F.relu(self.norm_final(self.final_fc(combined_features)))
+        combined_features = torch.cat([combined_features, question_features], dim=1)
         combined_features = F.relu(self.final_fc2(combined_features))
         output = torch.sigmoid(self.final_fc3(combined_features))
 
