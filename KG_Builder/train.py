@@ -9,15 +9,15 @@ from utils import predict, top_k_hit_rate
 from dataloader import NewGraphQuestionDataset
 
 # Constants
-TEST_SIZE = 0.1
+TEST_SIZE = 0.2
 RANDOM_STATE = 42
-BATCH_SIZE = 100
-NUM_EPOCHS = 1000
+BATCH_SIZE = 3
+NUM_EPOCHS = 50
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-LEARNING_RATE = 0.01
-WEIGHT_DECAY = 0.01
-W_POSITIVE = 10
-W_NEGATIVE = 0.5
+LEARNING_RATE = 0.0001
+WEIGHT_DECAY = 0.0001
+W_POSITIVE = 1
+W_NEGATIVE = 1.3
 THRESHOLD = 0.5
 HIDDEN_SIZE = 500
 EMBEDDING_SIZE = 384
