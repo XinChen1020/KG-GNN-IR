@@ -1,0 +1,9 @@
+fastcoref
+llama-index-embeddings-huggingface
+llama-index
+datasets
+transformers
+accelerate
+wikipedia
+torch_geometric
+numpy
