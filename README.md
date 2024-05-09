@@ -16,6 +16,8 @@ Before running the scripts, you'll need to install the required Python packages.
 pip install -r requirements.txt
 ```
 
+Default embedding is [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5)
+
 ### Installing and Running
 
 Follow these steps to get a development environment running:
@@ -33,7 +35,7 @@ python hotpotqa_baseline.py
 ```
 You can customize the script's execution by adjusting the command-line parameters:
 ```bash
-python hotpotqa_baseline.py --model_name "YourModelName" --file_name "your_file.json"
+python hotpotqa_baseline.py --model_name "YourModelName" --file_name "your_file.json" --top_k --retriever_mode
 ```
 ### Build the Knowledge Graph
 To construct the knowledge graph from the HotpotQA training file, execute:
@@ -47,9 +49,12 @@ To train the model, run:
 ```bash
 python train.py
 ```
+Hyparameters are store at the top of the file.\ 
 The model achieving the highest hit rate will be automatically stored in the output folder.
 
 ## Built With
 PyTorch - An open source machine learning framework. \
 PyTorch Geometric - A library for deep learning on graph and other irregular structures. \
-LlamaIndex
+LlamaIndex \
+HuggingFace
+
