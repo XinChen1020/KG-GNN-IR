@@ -16,17 +16,17 @@ Before running the scripts, you'll need to install the required Python packages.
 pip install -r requirements.txt
 ```
 
-## Installing and Running
+### Installing and Running
 
 Follow these steps to get a development environment running:
 
-## Download HotpotQA Dataset
+### Download HotpotQA Dataset
 Run the following bash command to download the required HotpotQA dataset:
 ```bash
 ./dataset/download_datasets.sh
 ```
 
-## Run Baseline Model 
+### Run Baseline Model 
 To execute the baseline model with default settings, use:
 ```bash
 python hotpotqa_baseline.py
@@ -35,14 +35,14 @@ You can customize the script's execution by adjusting the command-line parameter
 ```bash
 python hotpotqa_baseline.py --model_name "YourModelName" --file_name "your_file.json"
 ```
-## Build the Knowledge Graph
+### Build the Knowledge Graph
 To construct the knowledge graph from the HotpotQA training file, execute:
 ```bash
 python GraphBuilder.py
 ```
 This will output a JSON file containing the triplets in kgs.json.
 
-## Training the Model
+### Training the Model
 To train the model, run:
 ```bash
 python train.py
