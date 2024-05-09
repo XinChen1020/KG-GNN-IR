@@ -50,6 +50,6 @@ python train.py
 The model achieving the highest hit rate will be automatically stored in the output folder.
 
 ## Built With
-PyTorch - An open source machine learning framework.
-PyTorch Geometric - A library for deep learning on graph and other irregular structures.
-LlamaIndex - Custom library for indexing and processing text data.
+PyTorch - An open source machine learning framework. \
+PyTorch Geometric - A library for deep learning on graph and other irregular structures. \
+LlamaIndex
