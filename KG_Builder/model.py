@@ -1,4 +1,4 @@
-from torch_geometric.nn import GCNConv,SAGEConv
+from torch_geometric.nn import GCNConv, SAGEConv, GATConv
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
@@ -20,10 +20,17 @@ class W_BCELoss(nn.Module):
 
 
 class DualTowerModel(torch.nn.Module):
-    def __init__(self, embedding_dim, hidden_dim, output_dim):
+    def __init__(self, embedding_dim, hidden_dim, output_dim, layer_type='sage'):
         super(DualTowerModel, self).__init__()
-        # Replace GraphSAGE with GCN
-        self.gcn = SAGEConv(embedding_dim, hidden_dim)
+        # Graph layer type
+        if layer_type == 'gcn':
+            self.graph_conv = GCNConv(embedding_dim, hidden_dim)
+        elif layer_type == 'gat':
+            self.graph_conv = GATConv(embedding_dim, hidden_dim)
+        elif layer_type == 'sage':
+            self.graph_conv = SAGEConv(embedding_dim, hidden_dim, project = True)
+        else:
+            raise ValueError("Unsupported layer type: choose from 'gcn', 'gat', or 'sage'")
 
         self.norm_g = nn.LayerNorm(hidden_dim)
 
@@ -42,10 +49,10 @@ class DualTowerModel(torch.nn.Module):
         self.norm_final = nn.LayerNorm(hidden_dim)
 
     def forward(self, data, question_embedding, idx):
-        # Process graph features with GCN
-        structural_features = F.relu(self.norm_g(self.gcn(data.x, data.edge_index)))
+        # Process graph features
+        structural_features = F.relu(self.norm_g(self.graph_conv(data.x, data.edge_index)))
         structural_features = structural_features[idx]  # Apply indexing to select relevant node features
-        
+
         # Process text features
         text_features = F.relu(self.norm_t1(self.text_fc(data.x[idx])))
         text_features = self.dropout(F.relu(self.norm_t2(self.text_fc2(text_features))))
